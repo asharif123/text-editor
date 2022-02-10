@@ -21,10 +21,10 @@ self.addEventListener("install", (event) => {
   self.skipWaiting();
 });
 
-// Activate
+// Activate - storing info that gets cached data that gets used
 self.addEventListener("activate", (event) => {
   console.log("Service worker activated");
-  //   Remove old caches
+  // remove unwanted caches
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
@@ -41,10 +41,13 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
-// Fetch;
+//  show cached files if online;
+// when this is called from main program, verify if fetch call part of api
+// store information in cache
 self.addEventListener("fetch", (event) => {
   console.log("Service worker fetching", event.request.url);
-  // Check if live is available,  no connection = fail to .catch, match file from cache
+  // storing in the cache and uploading later
+  // storing new data in memory, when you reconnect internet it readds data from memory to api
   if (event.request.url.includes("/api/")) {
     event.respondWith(
       caches
@@ -66,7 +69,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // If API request not available, serve static assets
+  // serve static assets if no API is available
   event.respondWith(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.match(event.request).then(function (response) {
