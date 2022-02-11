@@ -8,6 +8,10 @@ It also has the option to allow users for offline access where users can also ad
 
 This is made possible by caching all the files.
 
-Here is a screenshot of the website:
+# Screenshot
+
+![alt-text](./images/main-page.JPG "main-page-1")
+
+
 
 
